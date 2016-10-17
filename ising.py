@@ -376,7 +376,7 @@ def ising_monodimensionale(coefj,delta_temperatura,tipo_allineamento,n_spin,temp
         magnetizzazione[aggrego]=2*magnetizzazione[aggrego]/n_spin       
     grid(True)
     xlabel('Spin')
-    ylabel('Time')
+    ylabel('Step')
     show()
     plt.figure(figsize=(10,7))        
     plt.xlabel('KT')
@@ -398,30 +398,39 @@ def ising_monodimensionale(coefj,delta_temperatura,tipo_allineamento,n_spin,temp
  
  
 
-#tipo_allineamento=raw_input("tipo di allineamento (up,dw,rn)=")
-#temperatura_iniziale=input("temperatura iniziale in KT=")
-#temperatura_finale=input("temperatura finale in kT=")
-#delta_temperatura=input("delta temperatura=")
-#numero_iterazioni =input("numero iterazioni=")
-#n_spin=input("numero_di_spin=")
-tipo_allineamento="rn"
-temperatura_iniziale=4
-temperatura_finale=0
-delta_temperatura=0.02
-numero_iterazioni=200 #numero di possibilità al cambio spin per la stessa temperatura
-n_spin=200#numero di spin nel caso 1D
-coefj=1 #positiva se ferromagnetico negativo antiferromagnetico
+tipo_allineamento=raw_input("spins direction  (up(for every spins up),dw(for every spins down),rn(for every spins random))=")
+temperatura_iniziale=input("Initial temperature in KT (you can use value such as(1,2,3,4,5 ecc..))=")
+temperatura_finale=input("Final temperature in kT (you can use value such as(1,2,3,4,5 ecc.. or (0.2,0.3,0.4 ecc...)))=")
+delta_temperatura=input("Delta temperature=")
+numero_iterazioni =input("Number iterations (the same number of the spins are ok)=")
+dimension=input("Insert dimension of the system (1 or 2)=")
+coefj=input("Insert coefj (you can put 1)=")
+if dimension==1:
+	n_spin=input("Number of spins=")
+
+if dimension==2:
+	n_spinx=input("Number of spins in X=")
+	n_spiny=input("Number of spins in Y=")
+
+#tipo_allineamento="rn"
+#temperatura_iniziale=4
+#temperatura_finale=0.2
+#delta_temperatura=0.02
+#numero_iterazioni=1000 #numero di possibilità al cambio spin per la stessa temperatura
+#n_spin=600#numero di spin nel caso 1D
+#coefj=1 #positiva se ferromagnetico negativo antiferromagnetico
 if temperatura_iniziale>temperatura_finale:
     temperatura_iniziale=temperatura_iniziale+delta_temperatura
 if temperatura_iniziale<temperatura_finale:
     temperatura_iniziale=temperatura_iniziale-delta_temperatura
 k=3 #serve per bloccare il grafico a temperatura_finale-k*delta_temperatura
-n_spinx=100 # numero di spin nel caso 2D
-n_spiny=100                              #
+#n_spinx=50 # numero di spin nel caso 2D
+#n_spiny=50                             #
 conta_k=1 # serve nel 1D disegna nel grafico temporale un set di spin ogni conta_k
  
  
- 
-ising_monodimensionale(coefj,delta_temperatura,tipo_allineamento,n_spin,temperatura_iniziale,temperatura_finale,numero_iterazioni,conta_k)   
-#ising_bidimensionale(coefj,delta_temperatura,tipo_allineamento,n_spinx,n_spiny,temperatura_iniziale,temperatura_finale,numero_iterazioni)
+if dimension==1: 
+	ising_monodimensionale(coefj,delta_temperatura,tipo_allineamento,n_spin,temperatura_iniziale,temperatura_finale,numero_iterazioni,conta_k)   
+if dimension==2:
+	ising_bidimensionale(coefj,delta_temperatura,tipo_allineamento,n_spinx,n_spiny,temperatura_iniziale,temperatura_finale,numero_iterazioni)
  
