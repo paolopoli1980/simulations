@@ -64,16 +64,16 @@ def func(t,a,b,c):
 node=[]                
 listnumb=[]
 numberofnodes=5
-maxspace=3
-minspace=2
-modulo=3
+maxspace=4
+minspace=4
+modulo=2
 dim=numberofnodes
 xx=[]
 yy=[]
 numbassociated=[]
 statechosen=1
 #numberofiterations=modulo**numberofnodes
-numberofiterations=40
+numberofiterations=32
 
 print numberofiterations
 #numberofiterations=10
@@ -127,7 +127,9 @@ for t in range(numberofiterations):
     c=0    
     numb=0
     for el in node:
+        
         numb+=el.state*modulo**(c)
+        c+=1
     numbassociated.append(numb)    
 #        print el.state
     cont=0    
