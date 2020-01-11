@@ -388,13 +388,13 @@ def dipolo_classico3d():
    # Bz=input("inserisci un campo costante lungo l'asse Z=")
     #interazioni="123"
     #print(interazioni[0:1])
-   # zconfig=input("premi z per configure i dipoli allineati sull'asse Z,m per allinearli metà-metà,p in modo lieve,x allineati sull'asse x,b in modalità xz allineamento=")
+    zconfig=input("premi z per configure i dipoli allineati sull'asse Z,m per allinearli metà-metà,p in modo lieve,x allineati sull'asse x,b in modalità xz allineamento=")
    # dimensione=input("inserisici la dimensione del sistema da visualizzare=")
    # dimensione=float(dimensione)
    # tantum=float(tantum)
     
  #parte nel caso volessimo fissare i dati di ingresso      
-    zconfig='p'
+    zconfig=''
     lunghezza=0.1*4
     larghezza=0.1*4
     altezza=0.1*4
@@ -410,16 +410,17 @@ def dipolo_classico3d():
     zoomyfin=larghezza
     zoomzfin=altezza
     rapporto=1
-    interazioni="111"
+    interazioni="110"
     tantum=1
     
     #supplemento=0
     m_r=1
     tempofine=2
-    dt=0.04
-    dimensione=2
+    dt=0.02
+    dimensione=3
+    
    # dt=float(dt/1000)
-    Bz=0
+    Bz=10
     lunghezza=float(lunghezza)*10**-9
     larghezza=larghezza*10**-9
     altezza=altezza*10**-9
@@ -453,7 +454,7 @@ def dipolo_classico3d():
     
     print(int(numero_dipoli))
     totalemodulo=numero_dipoli
-    contatore=0
+    contatore=-1
     ii=0
     jj=0
     c=-1
@@ -547,12 +548,18 @@ def dipolo_classico3d():
                 vy[i]=0
                 vz[i]=-9*10**-24
 
+
             if ((z[i]>=zoomz/deltaz) and (x[i]>=zoomx/deltax) and (y[i]>=zoomy/deltay) and (x[i]<=zoomxfin/deltax+1) and (y[i]<=zoomyfin/deltay+1) and (z[i]<=zoomzfin/deltaz+1)):
  
               
                 contatore=contatore+1
-    totalemodulo=0 
-   
+    #if zconfig=='z':
+    #    x[0]=2
+    #    y[0]=2
+    #    z[0]=4
+    totalemodulo=0
+    
+    print ("contatore e ndipoli" ,contatore,numero_dipoli)   
     
     tempo=0
     #inizia il calcolo  
