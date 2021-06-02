@@ -3,10 +3,14 @@
 def simula(n):
     stringstato=''
     listastati=[]
-    listacont=[0 for i in range(2**n)]
+    listacont=[0 for i in range(2**n+1)]
     state=[0 for i in range(n)]
     newstate=[0 for i in range(n)]
     cont=0
+    for j in range(n):
+        stringstato+=str(newstate[j])
+    listastati.append(stringstato)       
+    #print (listastati)
     for i in range(2**n):
         
         for j in range(n):
@@ -29,6 +33,7 @@ def simula(n):
         
         for t in range(s+1,len(listastati)):
             if listastati[s]==listastati[t]:
+                #print (t)
                 listacont[t]=1
     cont=0
     for s in range(len(listacont)):
