@@ -74,8 +74,22 @@ for i in range(2**(2**(n-1)*n)):
             
             stati[j][cont]=binario[k]
             cont+=1
-            
+    sim=True        
 
-    simula(n)    
+#    for el in stati:
+#        cont=0
+        #print (el)
+#        for elem in el:
+            
+            
+#            if elem=='1':
+#                cont+=1
+#                #print(cont)
+#        if cont!=(2**(n-1))/2:
+#            sim=False
+
+
+    if sim==True:        
+        simula(n)    
 print (stati)
 print (maxval[0])
