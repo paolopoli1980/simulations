@@ -12,21 +12,12 @@ class dot:
         self.index=index
         self.statenew=0
 
-    def setstates(self,ndots):
-        totalstates=1
-        for i in range(len(self.connections)):
-            #print (dots[self.connections[i]].maxstate)
-            totalstates*=((dots[self.connections[i]].maxstate+1))
-        print (totalstates)
-        for i in range(totalstates):
-            self.states.append(0)
 
     def sim(self):
         stateindex=0
         for i in range(len(self.connections)):
             stateindex+=((dots[self.connections[i]].maxstate+1)**(len(self.connections)-i-1))*dots[self.connections[i]].state   
         self.statenew=self.states[stateindex]
-        
 #dots=[dot(0),dot(1),dot(2)]
 
 #################### setting part ########################
@@ -51,12 +42,13 @@ dots[numberdots-2].connections=[numberdots-4,numberdots-3,numberdots-1,0]
 dots[numberdots-1].connections=[numberdots-3,numberdots-2,0,1]
 
 ################## table configurations #################
+
      
 for i in range(numberdots):
     
-    randomlist = [random.randint(0,maxstate) for j in range(256)]
-    
-    dots[i].states=randomlist
+    randomlist = [random.randint(0,maxstate) for j in range(16)]
+    dots[i].states[:]=randomlist[:]
+
 for i in range(numberdots):
     dots[i].state=0
 ###############################################################
@@ -64,8 +56,6 @@ for i in range(numberdots):
 niter=200
 
 listofstates=[]
-for el in dots:
-    el.setstates(len(dots))
 
 for el in dots:
     print(el.states)
