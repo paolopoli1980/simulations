@@ -10,7 +10,7 @@ class dot:
         self.states=[]
         self.state=0
         self.index=index
-        self.stateold=0
+        self.statenew=0
 
     def setstates(self,ndots):
         totalstates=1
@@ -25,12 +25,12 @@ class dot:
         stateindex=0
         for i in range(len(self.connections)):
             stateindex+=((dots[self.connections[i]].maxstate+1)**(len(self.connections)-i-1))*dots[self.connections[i]].state   
-        self.stateold=self.states[stateindex]
+        self.statenew=self.states[stateindex]
         
 #dots=[dot(0),dot(1),dot(2)]
 
 #################### setting part ########################
-numberdots=30
+numberdots=12
 maxstate=1
 dots=[]
 for i in range(numberdots):
@@ -54,14 +54,14 @@ dots[numberdots-1].connections=[numberdots-3,numberdots-2,0,1]
      
 for i in range(numberdots):
     
-    randomlist = [random.randint(0,maxstate) for j in range(16)]
+    randomlist = [random.randint(0,maxstate) for j in range(256)]
     
     dots[i].states=randomlist
 for i in range(numberdots):
     dots[i].state=0
 ###############################################################
 
-niter=100
+niter=200
 
 listofstates=[]
 for el in dots:
@@ -75,7 +75,7 @@ for i in range(niter):
         el.sim()
         
     for el in dots:        
-        el.state=el.stateold
+        el.state=el.statenew
     print('********************')
     digitlist=[]
     for el in dots:
@@ -93,6 +93,8 @@ for i in range(len(listofstates)):
             plt.scatter(j*1,i,s=2,c='b',alpha=1)
         if listofstates[i][j]==2:
             plt.scatter(j*1,i,s=2,c='y',alpha=1)
+        if listofstates[i][j]==3:
+            plt.scatter(j*1,i,s=2,c='g',alpha=1)
             
 #grid(True)
 plt.show()
