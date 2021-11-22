@@ -2,7 +2,7 @@
 //********************************* Title memoclusters ************************
 //*************** Simulation concerning 3D memoclusters sustaining was written*******************
 //*************** with the goal to simulate a mathematics model, where clusters interact *******************                          
-//*************** with a law of r^(alpha) field, and where their surviving depend by the sum of the 
+//*************** with a law of r^(alpha) field, and where their survival depend on the sum of the 
 //*************** total felt field.************************************************* 
 //*****************************************************************************
 //*****************************************************************************
@@ -515,7 +515,7 @@ for (int j=0;j<numbdensity;j++)
 		
 			outer_counter[0]=cubo.outer_clusters_count();
 		}
-		//cubo.write_grid();
+		cubo.write_grid();
 		//cout<<cubo.density<<endl;
 
 		if (cubo.resetsurface==1)
