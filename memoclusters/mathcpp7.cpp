@@ -456,7 +456,7 @@ int Cube::outer_clusters_count()
 int main()
 {
 int numbdensity=1;
-int ntrials=2;
+int ntrials=1;
 int deep=3;
 char press_key;
 double densityval[numbdensity];
@@ -467,12 +467,12 @@ srand(time(NULL));
 Cube cubo;
 
 cout<<"Start!"<<endl;
-cubo.cube_side=8;
-cubo.esp=-100;
-cubo.valueon=1.0;
+cubo.cube_side=16;
+cubo.esp=-6.3;
+cubo.valueon=0.25;
 cubo.valuetrigger=1.0;
 cubo.latticedistance=1.0;
-cubo.resetsurface=1;
+cubo.resetsurface=0;
 
 cubo.coef=1.0;
 
@@ -486,7 +486,7 @@ for (int l=0;l<numbdensity;l++)
 for (int j=0;j<numbdensity;j++)
 {
 	cubo.density=(double)(j+1)/(double)numbdensity;
-	cubo.density=0.44;
+	//cubo.density=0.44;
 	densityval[j]=cubo.density;
 	for (int i=0;i<ntrials;i++)
 	{
@@ -515,7 +515,7 @@ for (int j=0;j<numbdensity;j++)
 		
 			outer_counter[0]=cubo.outer_clusters_count();
 		}
-		cubo.write_grid();
+		//cubo.write_grid();
 		//cout<<cubo.density<<endl;
 
 		if (cubo.resetsurface==1)
@@ -589,6 +589,16 @@ if (cubo.resetsurface==0)
 		graphfile<<densityval[h]<<"   "<<numberon[h]<<endl;
 	}	
 	graphfile.close();
+}
+if (cubo.resetsurface==1)
+{
+	//******* apri file *********
+	ofstream ratiofile;
+	ratiofile.open("ratio.txt");
+
+	ratiofile<<((double)outer_counter[1]/(double)outer_counter[0])<<endl;
+		
+	ratiofile.close();
 }
 
 }
