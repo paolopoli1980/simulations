@@ -12,11 +12,11 @@ ax3.set_ylabel('E')
 
 for i in range(30): 
     G=1
-    M=400+20*(i+1)
+    M=600+20*(i+1)
     w=1
     m=1
     r=10
-    vr=0
+    vr=5
     l=m*r**2*w
     c=l/m
     k=G*M
