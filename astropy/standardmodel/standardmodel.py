@@ -7,10 +7,12 @@ q=0.98
 t=0
 ho=1/(13*10**(9))
 delta=0.01
-plus=0
+plus=135
 nsteps=int(2/delta)+plus
-
-q=[0.014,0.028,0.5,0.5,0.5,0.51]
+ax1.set_ylabel('Time')
+ax1.set_xlabel('R(t)/R0')
+q=[0.014,0.028,0.25,0.5,0.7,0.9]
+listlegend=['qo='+str(q[0]),'qo='+str(q[1]),'qo='+str(q[2]),'qo='+str(q[3]),'qo='+str(q[4]),'qo='+str(q[5])]
 color=['blue','red','yellow','green','pink','orange']
 cont=-1
 for elem in q:
@@ -28,7 +30,12 @@ for elem in q:
             pass
 
     
-    ax1.plot(ratiolist,tlist, linewidth=2.0, color=color[cont])
-plt.axvline(x=1, ymin=0.1, ymax=0.9)
+    ax1.plot(ratiolist,tlist, linewidth=2.0, color=color[cont],label=listlegend[cont])
+legend = ax1.legend(loc='upper right', shadow=True, fontsize='x-large')
+
+# Put a nicer background color on the legend.
+legend.get_frame().set_facecolor('C0')
+
+plt.axvline(x=1, ymin=0.01, ymax=1)
 plt.show()
     
