@@ -7,19 +7,20 @@ latitudinecity = {
   "Cairo":31.2357257,
   "Kinshasa":-4.3217055,
   "Helsinki":60.16749,
-  "Hammerfest":70.65,
+  "Longyearbyen":78.22,
   "Zero":90.0
 }
 
-namecity=["Rome","Cairo","Kinshasa","Helsinki","Hammerfest","Zero"]
+namecity=["Rome","Cairo","Kinshasa","Helsinki","Longyearbyen","Zero"]
 fig, (ax1, ax2, ax3,ax4,ax5,ax6) = plt.subplots(6)
-#ax1.set_title('Kepler Orbits')
-#ax2.set_title('Gravitational Potential Energy')
-#ax3.set_title('Gravitational Total Energy')
-#ax4.set_title('Teta')
-#ax5.set_title('E')
-ax6.set_xlabel('Hour')
+ax1.set_title(namecity[0])
+ax2.set_title(namecity[1])
+ax3.set_title(namecity[2])
+ax4.set_title(namecity[3])
+ax5.set_title(namecity[4])
+ax6.set_title(namecity[5])
 ax6.set_ylabel('Flux')
+ax6.set_xlabel('Hours')
 for i in range(len(namecity)):
     ws=7.164*10**(-4)
     wt=0.2616666
