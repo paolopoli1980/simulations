@@ -23,13 +23,16 @@ def start():
     d=float(str(f1.readline())[:-1])
     dt=float(str(f1.readline())[:-1])
     #tframe=float(str(f1.readline())[:-1])
-
-
+    Au=149597870707
+    g=6.67*10**(-11)
+    d=d*Au
+    ms=1.989*10**(30)
 
     white = (255, 255, 255)
     green = (0, 255, 0)
     blue = (0, 0, 128)
     black=(0,0,0)
+    
     for i in range(numberofmasses):
         bodies.append(gravitycalc.body())
 
@@ -42,8 +45,8 @@ def start():
     bodies[0].ax=0
     bodies[0].ay=0
     bodies[0].az=0
-    bodies[0].mass=m1
-    bodies[0].G=1
+    bodies[0].mass=m1*ms
+    bodies[0].G=g
 
     bodies[0].index=0
     bodies[0].radius=2
@@ -57,10 +60,10 @@ def start():
     bodies[1].ax=0
     bodies[1].ay=0
     bodies[1].az=0
-    bodies[1].mass=m2
+    bodies[1].mass=m2*ms
     bodies[1].index=1
     bodies[1].radius=1
-    bodies[1].G=1
+    bodies[1].G=g
 
     pressed=False
     memx1=[]
@@ -100,7 +103,7 @@ def start():
    # text6 = font.render('z2='+str(bodies[1].z), True,  black,white)        
     text7 = font.render('Energy='+str(totenergy), True,  black,white)        
     text8 = font.render('t='+str(t), True,  black,white)        
-    
+    text9 = font.render('d='+str(math.sqrt((bodies[1].x-bodies[0].x)**2+(bodies[1].y-bodies[0].y)**2)),True,black,white)   
     textRect1 = text1.get_rect()
     textRect1.center = (100, 10)
     textRect2 = text2.get_rect()
@@ -117,7 +120,8 @@ def start():
     textRect7.center = (100, 90)
     textRect8 = text8.get_rect()
     textRect8.center = (100, 110)
-
+    textRect9 = text8.get_rect()
+    textRect9.center = (100, 130)
     while running:
         #print(t)
         memx1.append(bodies[0].x)
@@ -146,6 +150,7 @@ def start():
         text6 = font.render('z='+str(bodies[1].z), True,  black,white)
         text7 = font.render('E='+str(totenergy), True,  black,white)      
         text8 = font.render('t='+str(t), True,  black,white)
+        text9 = font.render('d='+str(math.sqrt((bodies[1].x-bodies[0].x)**2+(bodies[1].y-bodies[0].y)**2)),True,black,white)
         for j in range(numberofmasses):
             gravitycalc.rk4(j,dt,numberofmasses,bodies)
             #gravitycalc.eulero(j,dt,numberofmasses,bodies)
@@ -169,7 +174,7 @@ def start():
 
         string=""
         
-            
+        #print(bodies[0].x)    
 
         t+=dt
         for event in pygame.event.get():
@@ -185,18 +190,21 @@ def start():
                        pressed=True
                    else:
                        pressed=False              
-
+               if event.key == K_t:
+                   print('time',t)
+                   print('totenergy',totenergy)
+                   print('distcance',d)
         # Fill the background with white
         screen.fill((255, 255, 255))
 
         # Draw a solid blue circle in the center
   
-        pygame.draw.circle(screen, (0, 0, 255), (400+int(25*bodies[0].x), 400+int(25*bodies[0].y)), 10)
-        pygame.draw.circle(screen, (100, 100, 55), (400+int(25*bodies[1].x), 400+int(25*bodies[1].y)), 10)
+        pygame.draw.circle(screen, (0, 0, 255), (400+int((25*bodies[0].x/Au)), 400+int((25*bodies[0].y)/Au)), 10)
+        pygame.draw.circle(screen, (100, 100, 55), (400+int((25*bodies[1].x/Au)), 400+int((25*bodies[1].y)/Au)), 10)
         if pressed==True:
             for h in range(len(memx1)):
-                pygame.draw.circle(screen, (0, 0, 255), (400+int(25*memx1[h]), 400+int(25*memy1[h])), 1)
-                pygame.draw.circle(screen, (100, 100, 55), (400+int(25*memx2[h]), 400+int(25*memy2[h])), 1)
+                pygame.draw.circle(screen, (0, 0, 255), (400+int((25*memx1[h]/Au)), 400+int((25*memy1[h])/Au)), 1)
+                pygame.draw.circle(screen, (100, 100, 55), ((400+int(25*memx2[h]/Au)), 400+int((25*memy2[h])/Au)), 1)
                 
                 
 
@@ -211,6 +219,8 @@ def start():
         #screen.blit(text6, textRect6)
         screen.blit(text7, textRect7)
         screen.blit(text8, textRect8)            
+        screen.blit(text9, textRect9)            
+
     #
         # Flip the display
         pygame.display.flip()
