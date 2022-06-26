@@ -10,6 +10,7 @@ import math
 def call_result(label_result, mass1,speedx1,speedy1,mass2,speedx2,speedy2,distance,dt,contframe):
     f1=open("input_file.txt","w")
     g=6.67*10**-11
+    ms=1.989*10**(30)
     mass1 = (mass1.get())  
     mass2 = (mass2.get())
     speedx1 = (speedx1.get())
@@ -20,7 +21,7 @@ def call_result(label_result, mass1,speedx1,speedy1,mass2,speedx2,speedy2,distan
     contframe = (contframe.get()) 
     dt= (dt.get())
     
-    result = str(float(mass1)/(g)) + "Kg," + str(float(mass2)/(g))+"Kg"
+    result = str(float(mass1)*ms) + "Kg," + str(float(mass2)*ms)+"Kg"
     
     
     label_result.config(text="Masses = %s" % result)
@@ -51,19 +52,19 @@ speedy2= tk.StringVar()
 distance = tk.StringVar()
 dt = tk.StringVar()
 contframe= tk.StringVar()
-labelNum1 = tk.Label(root, text="Mass 1").grid(row=1, column=0)  
+labelNum1 = tk.Label(root, text="Mass 1 (Sun masses)").grid(row=1, column=0)  
   
 labelNum2 = tk.Label(root, text="Speedx 1 m/s").grid(row=2, column=0)  
 
 labelNum3 = tk.Label(root, text="Speedy 1 m/s").grid(row=3, column=0)
 
-labelNum4 = tk.Label(root, text="Mass 2").grid(row=4, column=0)  
+labelNum4 = tk.Label(root, text="Mass 2 (Sun masses)").grid(row=4, column=0)  
   
 labelNum5 = tk.Label(root, text="Speedx 2 m/s").grid(row=5, column=0)
 
 labelNum6 = tk.Label(root, text="Speedy 2 m/s").grid(row=6, column=0)
 
-labelNum7 = tk.Label(root, text="Distance m").grid(row=7, column=0)
+labelNum7 = tk.Label(root, text="Distance Au").grid(row=7, column=0)
 
 labelNum8 = tk.Label(root, text="Delta t s").grid(row=8, column=0)  
 
