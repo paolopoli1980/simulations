@@ -15,6 +15,7 @@ q=[0.014,0.028,0.25,0.5,0.7,0.99]
 listlegend=['qo='+str(q[0]),'qo='+str(q[1]),'qo='+str(q[2]),'qo='+str(q[3]),'qo='+str(q[4]),'qo='+str(q[5])]
 color=['blue','red','yellow','green','pink','orange']
 cont=-1
+ax1.set_title('Friedmann Matter Dominated Universe')
 for elem in q:
     cont+=1
     tlist=[]
