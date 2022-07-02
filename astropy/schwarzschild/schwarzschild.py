@@ -13,8 +13,9 @@ gamma=1
 gammaorbit=1
 
 color=['blue','red','green','orange']
-listlegend=['rest','circular orbit']
+#listlegend=['rest','circular orbit']
 cont=-1
+
 ax1.set_ylabel('Time')
 ax1.set_xlabel('r')
 for elem in m:
@@ -30,7 +31,7 @@ for elem in m:
             print (el,gamma)
             listr.append(el)
             listgamma.append(gamma)
-    ax1.plot(listr,listgamma, linewidth=2.0, color=color[cont],label=listlegend[0])
+    ax1.plot(listr,listgamma, linewidth=2.0, color=color[cont])#label=listlegend[0])
     listr=[]
     listgamma=[]
     cont+=1
@@ -42,7 +43,7 @@ for elem in m:
             listgamma.append(gammaorbit)
             print (el,gammaorbit)
 
-    ax1.plot(listr,listgamma, linewidth=2.0, color=color[cont],label=listlegend[1])
+    #ax1.plot(listr,listgamma, linewidth=2.0, color=color[cont],label=listlegend[1])
     listr=[]
     listnewtongravity=[]
 '''
@@ -54,10 +55,10 @@ for elem in m:
     ax2.plot(listr,listnewtongravity,linewidth=2.0, color=color[cont])
 '''
 
-legend = ax1.legend(loc='upper right', shadow=True, fontsize='x-large')
+#legend = ax1.legend(loc='upper right', shadow=True, fontsize='x-large')
 
 # Put a nicer background color on the legend.
-legend.get_frame().set_facecolor('C0')
+#legend.get_frame().set_facecolor('C0')
 
 #plt.axvline(x=1, ymin=0.01, ymax=1)
 plt.show()
