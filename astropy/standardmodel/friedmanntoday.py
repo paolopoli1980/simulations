@@ -16,6 +16,7 @@ q=[[1,0,0,0],[0,1,0,0],[0,0,0,1],[0.,0.028,0.972,0.],[0,0.28,0,0.72]]
 listlegend=['qo='+str(q[0]),'qo='+str(q[1]),'qo='+str(q[2]),'qo='+str(q[3]),'qo='+str(q[4])]
 color=['blue','red','yellow','green','pink','orange']
 cont=-1
+ax1.set_title('Friedmann all Densities included')
 for elem in q:
     cont+=1
     tlist=[]
