@@ -329,7 +329,7 @@ def dipolo_classico3d():
          
 #calcola il campo su ogni dipolo          
 
-    def calcolo_campo3d():
+    def calcolo_campo3d(Bz):
        versx=0
        versy=0
        versz=0
@@ -361,7 +361,7 @@ def dipolo_classico3d():
                    campomagneticoz[j]=m_r*m_0*(3*prodotto_scalare*versz-vz[i])/(distanza*distanza*distanza)+campomagneticoz[j]
 
            campomagneticoz[j]=campomagneticoz[j]+Bz 
-          # print Bz
+           #print (Bz)
            #print campomagneticoz[j]
                    
      
@@ -397,7 +397,7 @@ def dipolo_classico3d():
    # tantum=float(tantum)
     
  #parte nel caso volessimo fissare i dati di ingresso      
-    zconfig='s'
+    zconfig='z'
     lunghezza=0.1*4
     larghezza=0.1*4
     altezza=0.1*4
@@ -413,14 +413,14 @@ def dipolo_classico3d():
     zoomyfin=larghezza
     zoomzfin=altezza
     rapporto=1
-    interazioni="111"
+    interazioni="100"
     tantum=1
     fatcoefj=2*1
     #supplemento=0
     m_r=1
     tempofine=3.0
     dt=0.02
-    dimensione=2
+    dimensione=3
     
    # dt=float(dt/1000)
     Bz=4.0*0
@@ -608,9 +608,9 @@ def dipolo_classico3d():
       #  print(dt)
         if (float(interazioni[0:1])==1):
              
-            calcolo_campo3d() #calcoli il c1 in fn       
-        for j in range(0,int(numero_dipoli)):
-            campomagneticoz[j]=campomagneticoz[j]+Bz 
+            calcolo_campo3d(Bz) #calcoli il c1 in fn       
+        #for j in range(0,int(numero_dipoli)):
+        #    campomagneticoz[j]=campomagneticoz[j]+Bz 
 
         choose=0
         moto_dipoli3d(conta_tantum,choose,fatcoefj,Bz)  
@@ -623,7 +623,7 @@ def dipolo_classico3d():
      
         #calcolo il campo magnetico solo nell'interazione dipolo dipolo           
         if (float(interazioni[0:1])==1):
-            calcolo_campo3d()        
+            calcolo_campo3d(Bz)        
         choose=1
         
 
@@ -637,7 +637,7 @@ def dipolo_classico3d():
         
         choose=2
         if (float(interazioni[0:1])==1):
-             calcolo_campo3d()        
+             calcolo_campo3d(Bz)        
  
         moto_dipoli3d(conta_tantum,choose,fatcoefj,Bz) #calcola i c3
        
@@ -651,7 +651,7 @@ def dipolo_classico3d():
          
         choose=3
         if (float(interazioni[0:1])==1):
-            calcolo_campo3d()        
+            calcolo_campo3d(Bz)        
  
 
         moto_dipoli3d(conta_tantum,choose,fatcoefj,Bz) #calcola i c4
