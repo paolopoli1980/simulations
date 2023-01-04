@@ -5,6 +5,9 @@ from vpython import *
 import time
 from math import sqrt
 import random
+scene = canvas(title='Spins',
+     x=0, y=0, width=600, height=400,
+center=vector(0,0,0), background=vector(1,1,1))
 
 #apertura dei files uno per scrittura e l'altro per lettura
 f0=open("dipoli.txt " , "w")
@@ -31,7 +34,8 @@ s2=0
 j=0
 distanza=0
 m_0=0.0000001
-#m_0=0
+
+#m_0=0.1*m_0
 m_r=1
 delta_mux=0
 delta_muy=0
@@ -98,15 +102,15 @@ f5 = gcurve(color=color.green)
             
 #questa procedura disegna la scatola e relativi assi
 def scatola(lunghezza,larghezza,altezza,deltax,deltay,deltaz):
-    square = curve(pos=([(0,0,0),(lunghezza/deltax,0,0),(lunghezza/deltax,larghezza/deltay,0),(0,larghezza/deltay,0),(0,0,0)]))   
-    square = curve(pos=([(0,0,altezza/deltaz),(lunghezza/deltax,0,altezza/deltaz),(lunghezza/deltax,larghezza/deltay,altezza/deltaz),(0,larghezza/deltay,altezza/deltaz),(0,0,altezza/deltaz)]))    
-    square = curve(pos=([(0,0,altezza/deltaz),(0,0,0)]))    
-    square = curve(pos=([(0,larghezza/deltay,altezza/deltaz),(0,larghezza/deltay,0)]))    
-    square = curve(pos=([(lunghezza/deltax,0,altezza/deltaz),(lunghezza/deltax,0,0)]))    
-    square = curve(pos=([(lunghezza/deltax,larghezza/deltay,altezza/deltaz),(lunghezza/deltax,larghezza/deltay,0)]))    
+    square = curve(pos=([(0,0,0),(lunghezza/deltax,0,0),(lunghezza/deltax,larghezza/deltay,0),(0,larghezza/deltay,0),(0,0,0)]),color=color.red)   
+    square = curve(pos=([(0,0,altezza/deltaz),(lunghezza/deltax,0,altezza/deltaz),(lunghezza/deltax,larghezza/deltay,altezza/deltaz),(0,larghezza/deltay,altezza/deltaz),(0,0,altezza/deltaz)]),color=color.red)    
+    square = curve(pos=([(0,0,altezza/deltaz),(0,0,0)]),color=color.red)    
+    square = curve(pos=([(0,larghezza/deltay,altezza/deltaz),(0,larghezza/deltay,0)]),color=color.red)    
+    square = curve(pos=([(lunghezza/deltax,0,altezza/deltaz),(lunghezza/deltax,0,0)]),color=color.red)    
+    square = curve(pos=([(lunghezza/deltax,larghezza/deltay,altezza/deltaz),(lunghezza/deltax,larghezza/deltay,0)]),color=color.red)    
     freccia.append(arrow(pos=vector(0,0,0), axis=vector(0,0,altezza/deltaz+1), shaftwidth=0.1, color=color.yellow))
     freccia.append(arrow(pos=vector(0,0,0), axis=vector(0,larghezza/deltay+1,0), shaftwidth=0.1, color=color.red))
-    freccia.append(arrow(pos=vector(0,0,0), axis=vector(lunghezza/deltax+1,0,0), shaftwidth=0.1, color=color.white))
+    freccia.append(arrow(pos=vector(0,0,0), axis=vector(lunghezza/deltax+1,0,0), shaftwidth=0.1, color=color.green))
 
 #questa procedura legge i valori calcolati istante per istante per disegnare i dipoli
 def lettura_file(contatore,lunghezza,larghezza,altezza,deltax,deltay,deltaz):
@@ -123,7 +127,7 @@ def lettura_file(contatore,lunghezza,larghezza,altezza,deltax,deltay,deltaz):
 #forma la lista di dipoli
     for k in range(0,contatore):
          
-        dipoli.append(arrow(pos=vector(x[k],y[k],z[k]), axis=vector(vx[k],vy[k],vz[k]), shaftwidth=0.1, color=color.green))
+        dipoli.append(arrow(pos=vector(x[k],y[k],z[k]), axis=vector(vx[k],vy[k],vz[k]), shaftwidth=0.1, color=color.black))
 #legge nel file e disegna i dipoli essi vengono (graficamente) normalizzati per poterli visualizzare
 #    testo = text(pos=vector((lunghezza/deltax+1,0,0),text="x", align='center', depth=-0.3, color=color.white,height=0.5)
 #    testo = text(pos=vector((0,larghezza/deltay+1,0),text="y", align='center', depth=-0.3, color=color.white,height=0.5)
@@ -240,32 +244,32 @@ def dipolo_classico3d():
               s_deltaz=0
               #**********seconda interazione quella isotropica
               #**********calcolo lo spostamento dovuto a questa interazione sul dipolo considerato
-              
-              for k in range(0,int(numero_dipoli)):
-                    #*********normalizzo il dipolo considerato
-                    valx=memvx[i]/(9*10**-24)
-                    valy=memvy[i]/(9*10**-24)
-                    valz=memvz[i]/(9*10**-24)
+              if interazioni[1:2]=='1':
+                  for k in range(0,int(numero_dipoli)):
+                        #*********normalizzo il dipolo considerato
+                        valx=memvx[i]/(9*10**-24)
+                        valy=memvy[i]/(9*10**-24)
+                        valz=memvz[i]/(9*10**-24)
+                                  
+                        if k!=i:
+                              #**********normalizzo gli altri dipoli circostanti                            
+                                
+                              valx2=memvx[k]/(9*10**-24)
+                              valy2=memvy[k]/(9*10**-24)
+                              valz2=memvz[k]/(9*10**-24)
+                              #*******print(vx[k])
+                              #*******calcolo il secondo termine dell'equazione del moto
+                              delta_mux,delta_muy,delta_muz=prodotto_vettoriale(i,valx,valy,valz,valx2,valy2,valz2)
+       
+                              distanza=sqrt(((x[i]-x[k])*deltax)*((x[i]-x[k])*deltax)+((y[i]-y[k])*deltay)*((y[i]-y[k])*deltay)+((z[i]-z[k])*deltaz)*((z[i]-z[k])*deltaz))
+                              #****mi rimetto a distanze unitarie  
+                              distanza=distanza/(deltax)
                               
-                    if k!=i:
-                          #**********normalizzo gli altri dipoli circostanti                            
-                            
-                          valx2=memvx[k]/(9*10**-24)
-                          valy2=memvy[k]/(9*10**-24)
-                          valz2=memvz[k]/(9*10**-24)
-                          #*******print(vx[k])
-                          #*******calcolo il secondo termine dell'equazione del moto
-                          delta_mux,delta_muy,delta_muz=prodotto_vettoriale(i,valx,valy,valz,valx2,valy2,valz2)
-   
-                          distanza=sqrt(((x[i]-x[k])*deltax)*((x[i]-x[k])*deltax)+((y[i]-y[k])*deltay)*((y[i]-y[k])*deltay)+((z[i]-z[k])*deltaz)*((z[i]-z[k])*deltaz))
-                          #****mi rimetto a distanze unitarie  
-                          distanza=distanza/(deltax)
-                          
-                          #*****calcolo gli spostamenti derivati dalla seconda interazione     
-                          s_deltax=delta_mux*coefj*float(interazioni[1:2])/(distanza**alfa)+s_deltax
-                          s_deltay=delta_muy*coefj*float(interazioni[1:2])/(distanza**alfa)+s_deltay
-                          s_deltaz=delta_muz*coefj*float(interazioni[1:2])/(distanza**alfa)+s_deltaz
-                           
+                              #*****calcolo gli spostamenti derivati dalla seconda interazione     
+                              s_deltax=delta_mux*coefj*float(interazioni[1:2])/(distanza**alfa)+s_deltax
+                              s_deltay=delta_muy*coefj*float(interazioni[1:2])/(distanza**alfa)+s_deltay
+                              s_deltaz=delta_muz*coefj*float(interazioni[1:2])/(distanza**alfa)+s_deltaz
+                               
                           #******ritorno ai valori nominali    
                            
  
@@ -281,33 +285,60 @@ def dipolo_classico3d():
               s_deltax=0
               s_deltay=0
               s_deltaz=0
-              for k in range(0,int(numero_dipoli)):
-   
-                    valx=memvx[i]/(9*10**-24)
-                    valy=memvy[i]/(9*10**-24)
-                    valz=memvz[i]/(9*10**-24)
-                              
-                    if k!=i:
-                          valx2=memvx[k]/(9*10**-24)
-                          valy2=memvy[k]/(9*10**-24)
-                          valz2=memvz[k]/(9*10**-24)
-                   
-        #dalla analisi dell'hamiltoniana e dal ricavare un campo magnetico associato il risultato del termine è il seguente                   
-                          delta_mux,delta_muy,delta_muz=prodotto_vettoriale(i,valx,valy,valz,0,0,valz2)
-   
-                          distanza=sqrt(((x[i]-x[k])*deltax)*((x[i]-x[k])*deltax)+((y[i]-y[k])*deltay)*((y[i]-y[k])*deltay)+((z[i]-z[k])*deltaz)*((z[i]-z[k])*deltaz))
-                          distanza=distanza/(deltax)
-       #stesso calcolo di prima aggiunto il rapporto                              
-                          s_deltax=delta_mux*coefj*rapporto*float(interazioni[2:3])/(distanza**alfa)+s_deltax
-                          s_deltay=delta_muy*coefj*rapporto*float(interazioni[2:3])/(distanza**alfa)+s_deltay
-                          s_deltaz=delta_muz*coefj*rapporto*float(interazioni[2:3])/(distanza**alfa)+s_deltaz
-                             
+              if interazioni[2:3]=='1':
+                  for k in range(0,int(numero_dipoli)):
+       
+                        valx=memvx[i]/(9*10**-24)
+                        valy=memvy[i]/(9*10**-24)
+                        valz=memvz[i]/(9*10**-24)
 
-  
+                        if k!=i:
+                              valx2=memvx[k]/(9*10**-24)
+                              valy2=memvy[k]/(9*10**-24)
+                              valz2=memvz[k]/(9*10**-24)
+                       
+            #dalla analisi dell'hamiltoniana e dal ricavare un campo magnetico associato il risultato del termine è il seguente                   
+                              delta_mux,delta_muy,delta_muz=prodotto_vettoriale(i,valx,valy,valz,0,0,valz2)
+                              #delta_mux,delta_muy,delta_muz=prodotto_vettoriale(i,0,0,valz,0,0,valz2)
+                              
+       
+                              distanza=sqrt(((x[i]-x[k])*deltax)*((x[i]-x[k])*deltax)+((y[i]-y[k])*deltay)*((y[i]-y[k])*deltay)+((z[i]-z[k])*deltaz)*((z[i]-z[k])*deltaz))
+                              distanza=distanza/(deltax)
+           #stesso calcolo di prima aggiunto il rapporto                              
+                              s_deltax=delta_mux*coefj*rapporto*float(interazioni[2:3])/(distanza**alfa)+s_deltax
+                              s_deltay=delta_muy*coefj*rapporto*float(interazioni[2:3])/(distanza**alfa)+s_deltay
+                              s_deltaz=delta_muz*coefj*rapporto*float(interazioni[2:3])/(distanza**alfa)+s_deltaz
+                             
+              somma_deltax[choose][i]=somma_deltax[choose][i]+s_deltax
+              somma_deltay[choose][i]=somma_deltay[choose][i]+s_deltay
+              somma_deltaz[choose][i]=somma_deltaz[choose][i]+s_deltaz
+              
+              if interazioni[3:4]=='1':
+                  for k in range(0,int(numero_dipoli)):
+       
+                        valx=memvx[i]/(9*10**-24)
+                        valy=memvy[i]/(9*10**-24)
+                        valz=memvz[i]/(9*10**-24)
+
+                        if k==i:
+                              valx2=memvx[k]/(9*10**-24)
+                              valy2=memvy[k]/(9*10**-24)
+                              valz2=memvz[k]/(9*10**-24)
+                       
+            #dalla analisi dell'hamiltoniana e dal ricavare un campo magnetico associato il risultato del termine è il seguente                   
+                              delta_mux,delta_muy,delta_muz=prodotto_vettoriale(i,valx,valy,valz,0,0,valz)
+                              
+       
+           #stesso calcolo di prima aggiunto il rapporto                              
+                              s_deltax=delta_mux*coefj*rapporto*float(interazioni[3:4])+s_deltax
+                              s_deltay=delta_muy*coefj*rapporto*float(interazioni[3:4])+s_deltay
+                              s_deltaz=delta_muz*coefj*rapporto*float(interazioni[3:4])+s_deltaz
+                             
               somma_deltax[choose][i]=somma_deltax[choose][i]+s_deltax
               somma_deltay[choose][i]=somma_deltay[choose][i]+s_deltay
               somma_deltaz[choose][i]=somma_deltaz[choose][i]+s_deltaz
  
+                
  #*******************************************************
 
    
@@ -383,14 +414,14 @@ def dipolo_classico3d():
    # tantum=float(tantum)
     
  #parte nel caso volessimo fissare i dati di ingresso      
-    zconfig='p'
+    zconfig='s'
     lunghezza=0.1*4
     larghezza=0.1*4
     altezza=0.1*4
    
     delta=0.1
-    densita=0.7
-    alfa=1
+    densita=1.0
+    alfa=2
     alfa2=3
     zoomx=0
     zoomy=0
@@ -398,15 +429,15 @@ def dipolo_classico3d():
     zoomxfin=lunghezza
     zoomyfin=larghezza
     zoomzfin=altezza
-    rapporto=1
+    rapporto=4
     interazioni="110"
     tantum=1
     fatcoefj=2*1
     #supplemento=0
     m_r=1
-    tempofine=20.0
-    dt=0.01
-    dimensione=3
+    tempofine=40.0
+    dt=0.03
+    dimensione=2
     
    # dt=float(dt/1000)
     Bz=4.0*0
@@ -423,7 +454,7 @@ def dipolo_classico3d():
     zoomxfin=zoomxfin*10**-9
     zoomyfin=zoomyfin*10**-9
     zoomzfin=zoomzfin*10**-9
-    
+   
     
     
 
@@ -453,25 +484,36 @@ def dipolo_classico3d():
               memvx.append(0)
               memvy.append(0)
               memvz.append(0)
-        
     while (i <int(numero_dipoli)):
 
-        
+       
+             
         ii=random.randint(0,int(lunghezza/deltax))
         jj=random.randint(0,int(larghezza/deltay))
         kk=random.randint(0,int(altezza/deltaz))
+        if (zconfig=='zs') or (zconfig=='ps'):
+            for p in range(int(lunghezza/deltax)):
+                for q in range(int(larghezza/deltay)):
+                    for r in range(int(altezza/deltaz)):
+                        if reticolo[p][q][r]==0:
+                            ii=p
+                            jj=q
+                            kk=r
+                
+        
+        
         if dimensione==1:
             kk=int(altezza/(2*deltaz))
             jj=int(larghezza/(2*deltay))
         if dimensione==2:
             kk=int(altezza/(2*deltaz))
             
-        
+                
 
                 
                 
         if (reticolo[ii][jj][kk]==0):
-             
+            print(ii,jj,kk) 
             i=i+1
             #print(i)    
             reticolo[ii][jj][kk]=1
@@ -503,11 +545,11 @@ def dipolo_classico3d():
                 vy[i]=vy[i]*(-9*10**(-24))
 
 
-            if (zconfig=='p'):
+            if (zconfig=='p') or (zconfig=='ps'):
                 if i==0:
-                    vx[i]=9*10**-25
-                    vy[i]=9*10**-25
-                    vz[i]=sqrt((9*10**-24)**2-2*(9*10**-25)**2)
+                    vx[i]=9*10**-26
+                    vy[i]=9*10**-26
+                    vz[i]=sqrt((9*10**-24)**2-2*(9*10**-26)**2)
                 else:
                     vx[i]=0
                     vy[i]=0
@@ -515,7 +557,7 @@ def dipolo_classico3d():
                     
                     
  
-            if (zconfig=='z'):
+            if (zconfig=='z') or (zconfig=='zs'):
                 vx[i]=0
                 vy[i]=0
                 vz[i]=9*10**-24
@@ -539,6 +581,7 @@ def dipolo_classico3d():
                 vy[i]=0
                 vz[i]=-9*10**-24
 
+
             if dimensione==2 and zconfig=='zandrand':
                 if i<int(numero_dipoli)/2:
                     kk=int(0)
@@ -548,14 +591,20 @@ def dipolo_classico3d():
                 else:
                     kk=int(altezza/2.0)
 
+
             if ((z[i]>=zoomz/deltaz) and (x[i]>=zoomx/deltax) and (y[i]>=zoomy/deltay) and (x[i]<=zoomxfin/deltax+1) and (y[i]<=zoomyfin/deltay+1) and (z[i]<=zoomzfin/deltaz+1)):
  
               
                 contatore=contatore+1
+
+    
+    print (ii,jj,kk,contatore)
+
    # if zconfig=='z':
        # x[0]=2
        # y[0]=2
        # z[0]=4
+       
     totalemodulo=0
     
     print ("contatore e ndipoli" ,contatore,numero_dipoli)   
