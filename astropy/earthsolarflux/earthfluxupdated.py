@@ -21,12 +21,12 @@ ax5.set_title(namecity[4])
 ax6.set_title(namecity[5])
 ax6.set_ylabel('Flux')
 ax6.set_xlabel('Hours')
-ts=224.7
-tp=5832.6
+ts=224.7   # periodo intorno alla stella in giorni
+tp=5832.6 #periodo intorno a se stesso in ore
 ws=2*math.pi/(ts*24)
 wt=2*math.pi/(tp)
 tilting=2.64
-a=108.21/149.598
+a=108.21/149.598   # asse maggiore a=1 corrisponde a 1 Au 
 e=0.0068
 b=math.sqrt(1-e**2)*a
 xf=math.sqrt(a**2-b**2)
